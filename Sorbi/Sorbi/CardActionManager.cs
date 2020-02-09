@@ -39,5 +39,14 @@ namespace Sorbi
                 new CardAction() { Title = "Diğer", Type = ActionTypes.ImBack, Value = "6" },
             };
         }
+
+
+        public static List<CardAction> GetWayybil()
+        {
+            return new List<CardAction>
+            {
+                new CardAction() { Title = "İkea İrsaliye", Type = ActionTypes.OpenUrl, Value = "www.google.com" },
+            };
+        }
     }
 }
