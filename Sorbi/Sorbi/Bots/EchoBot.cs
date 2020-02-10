@@ -1,9 +1,6 @@
-using Microsoft.Bot.Builder;
+ï»¿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using ServiceStack.Support.Markdown;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,88 +11,57 @@ namespace Sorbi.Bots
         public static string ordernumber = "";
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            //var replyText = turnContext.Activity.Text;
+            var replyText = turnContext.Activity.Text;
 
-            //if (replyText.Contains("sipariþ"))
-            //{
-            //    await SendSuggestedActionsPlatformAsync(turnContext, cancellationToken);
-            //    return;
-            //}
-
-            //if (replyText == "PX")
-            //{
-            //    await SendSuggestedActionsAccountAsync(turnContext, cancellationToken);
-            //    return;
-            //}
-
-            //if (replyText == "IKEA")
-            //{
-            //    await turnContext.SendActivityAsync(MessageFactory.Text("Lütfen Sipariþ Nunamasý giriniz."), cancellationToken);
-            //    return;
-            //}
-
-            //if (replyText == "123456789")
-            //{
-            //    await SendSuggestedActionPackingAsync(turnContext, cancellationToken);
-            //    ordernumber = replyText;
-            //    return;
-            //}
-
-            //if (replyText == "6")
-            //{
-            //    await turnContext.SendActivityAsync(MessageFactory.Text(ordernumber + " numaralý sipariþ için lütfen karþýlaþtýðýnýz sorunu yazýnýz"), cancellationToken);
-            //    return;
-            //}
-
-            //if (replyText == "4")
-            //{
-            //    await SendSuggestedActionWayybillAsync(turnContext, cancellationToken);
-            //    return;
-            //}
-
-           // await turnContext.SendActivityAsync(MessageFactory.Text("Üzgünüm !! Seni anlayamadým, Lütfen daha fazla bilgi verebilirmisin :("), cancellationToken);
-        }
-
-
-
-        //private static Attachment GetLocalAttachment()
-        //{
-        //    var imagePath = HttpContext.Current.Server.MapPath("~/images/demo.gif");
-
-        //    var imageData = Convert.ToBase64String(File.ReadAllBytes(imagePath));
-
-        //    return new Attachment
-        //    {
-        //        Name = "demo.gif",
-        //        ContentType = "image/gif",
-        //        ContentUrl = $"data:image/gif;base64,{imageData}"
-        //    };
-        //}
-
-
-        private static Attachment GetInternetAttachment()
-        {
-            return new Attachment
+            if (replyText.Contains("siparis"))
             {
-                Name = "architecture-resize.png",
-                ContentType = "image/png",
-                ContentUrl = "https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png"
-            };
+                await SendSuggestedActionsPlatformAsync(turnContext, cancellationToken);
+                return;
+            }
+
+            if (replyText == "PX")
+            {
+                await SendSuggestedActionsAccountAsync(turnContext, cancellationToken);
+                return;
+            }
+
+            if (replyText == "IKEA")
+            {
+                await turnContext.SendActivityAsync(MessageFactory.Text("LÃ¼tfen Siparis Nunamass giriniz."), cancellationToken);
+                return;
+            }
+
+            if (replyText == "123456789")
+            {
+                await SendSuggestedActionPackingAsync(turnContext, cancellationToken);
+                ordernumber = replyText;
+                return;
+            }
+
+            if (replyText == "6")
+            {
+                await turnContext.SendActivityAsync(MessageFactory.Text(ordernumber + " numarali siparis iÃ§in lÃ¼tfen karsilastiginiz sorunu yaziniz"), cancellationToken);
+                return;
+            }
+
+            if (replyText == "4")
+            {
+                await SendSuggestedActionWayybillAsync(turnContext, cancellationToken);
+                return;
+            }
+
+            if (replyText.Contains("yardim"))
+            {
+                await turnContext.SendActivityAsync(MessageFactory.Text("ASM-434 numarali Jira maddesini senin iÃ§in olusturdum. Bu numaradan takip edebilirsin. - PX Depo IKEA MÃ¼sterisi iÃ§in 123456789 numarali siparisden Ä°rsaliye alinamiyor. Acil yardiminiz Bekleniyor - DESTEK BÄ°RÄ°MÄ°"), cancellationToken);
+                return;
+            }
+
+            await turnContext.SendActivityAsync(MessageFactory.Text("ÃœzgÃ¼nÃ¼m !! Seni anlayamadim :(, LÃ¼tfen daha fazla bilgi verebilirmisin."), cancellationToken);
         }
-
-
-
-
-
-
-
-
-
-
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            var welcomeText = "Merhaba ben Sorbi, Size nasýl yardýmcý olabilirim.";
+            var welcomeText = "Merhaba ben Sorbi, Size nasil yardimci olabilirim.";
             foreach (var member in membersAdded)
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)
@@ -107,7 +73,7 @@ namespace Sorbi.Bots
 
         private static async Task SendSuggestedActionsPlatformAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var reply = MessageFactory.Text("Size daha iyi yardýmcý olabilmem için, Lütfen Depo seçiniz.");
+            var reply = MessageFactory.Text("Size daha iyi yardimci olabilmem iÃ§in, LÃ¼tfen Depo seÃ§iniz.");
 
             reply.SuggestedActions = new SuggestedActions()
             {
@@ -118,7 +84,7 @@ namespace Sorbi.Bots
 
         private static async Task SendSuggestedActionsAccountAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var reply = MessageFactory.Text("Lütfen Müþteri seçiniz.");
+            var reply = MessageFactory.Text("LÃ¼tfen MÃ¼steri seÃ§iniz.");
 
             reply.SuggestedActions = new SuggestedActions()
             {
@@ -129,7 +95,7 @@ namespace Sorbi.Bots
 
         private static async Task SendSuggestedActionPackingAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var reply = MessageFactory.Text(ordernumber + " numaralý sipariþ için, Aþaðýdaki hangi nedeni söyleyebilirsiniz.");
+            var reply = MessageFactory.Text(ordernumber + " numarali siparis iÃ§in, Asagidaki hangi nedeni sÃ¶yleyebilirsiniz.");
 
             reply.SuggestedActions = new SuggestedActions()
             {
@@ -140,35 +106,11 @@ namespace Sorbi.Bots
 
         private static async Task SendSuggestedActionWayybillAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var reply = MessageFactory.Text(ordernumber + " numaralý sipariþ için, Ýrsaliye yi aþaðýdaki Linke týklayarak ulaþabilirsiniz.");
+            var reply = MessageFactory.Text(ordernumber + " numarali siparis iÃ§in, Irsaliye yi asagidaki Linke tiklayarak ulasabilirsiniz.");
 
             reply.SuggestedActions = new SuggestedActions()
             {
                 Actions = CardActionManager.GetWayybil()
-            };
-            await turnContext.SendActivityAsync(reply, cancellationToken);
-        }
-
-
-
-        private static async Task hhhhh(ITurnContext turnContext, CancellationToken cancellationToken)
-        {
-
-            turnContext.Activity.Attachments.Add(new Attachment()
-            {
-                ContentUrl = "https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png",
-                ContentType = "image/png",
-                Name = "AIHelpWebsiteLogo_Large.png"
-            });
-
-
-
-
-            var reply = MessageFactory.Text("Size daha iyi yardýmcý olabilmem için, Lütfen Depo seçiniz.");
-
-            reply.SuggestedActions = new SuggestedActions()
-            {
-                Actions = CardActionManager.GetPlatforms()
             };
             await turnContext.SendActivityAsync(reply, cancellationToken);
         }
