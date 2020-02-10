@@ -48,5 +48,16 @@ namespace Sorbi
                 new CardAction() { Title = "İkea İrsaliye", Type = ActionTypes.OpenUrl, Value = "http://www.leighsocialclub.com/wp-content/uploads/waybill-format-air-waybill-sample-form-9-esca-pro.jpg" },
             };
         }
+
+        public static List<CardAction> GetAccountsc2()
+        {
+            return new List<CardAction>
+            {
+                new CardAction() { Title = "WATSON", Type = ActionTypes.ImBack, Value = "WATSON" },
+                new CardAction() { Title = "PUMA", Type = ActionTypes.ImBack, Value = "PUMA" },
+                new CardAction() { Title = "NESTLE", Type = ActionTypes.ImBack, Value = "NESTLE" },
+                new CardAction() { Title = "ELCA", Type = ActionTypes.ImBack, Value = "ELCA" }
+            };
+        }
     }
 }

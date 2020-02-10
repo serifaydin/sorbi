@@ -9,6 +9,8 @@ namespace Sorbi.Bots
     public class EchoBot : ActivityHandler
     {
         public static string ordernumber = "";
+        public static string account = "";
+        static string platform = "";
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var replyText = turnContext.Activity.Text;
@@ -19,19 +21,34 @@ namespace Sorbi.Bots
                 return;
             }
 
-            if (replyText == "PX")
+            if (replyText == "PM")
             {
                 await SendSuggestedActionsAccountAsync(turnContext, cancellationToken);
+                platform = "PM";
+                return;
+            }
+            if (replyText == "PX")
+            {
+                await SendSuggestedActionsAccount2Async(turnContext, cancellationToken);
+                account = replyText;
                 return;
             }
 
             if (replyText == "IKEA")
             {
-                await turnContext.SendActivityAsync(MessageFactory.Text("Lütfen Siparis Nunamass giriniz."), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Text("Lütfen Siparis Nunamasi giriniz."), cancellationToken);
+                account = "IKEA";
                 return;
             }
 
-            if (replyText == "123456789")
+            if (replyText == "ELCA")
+            {
+                await turnContext.SendActivityAsync(MessageFactory.Text("Lütfen Siparis Nunamasi giriniz."), cancellationToken);
+                account = "ELCA";
+                return;
+            }
+
+            if (replyText.Contains("ord"))
             {
                 await SendSuggestedActionPackingAsync(turnContext, cancellationToken);
                 ordernumber = replyText;
@@ -52,7 +69,7 @@ namespace Sorbi.Bots
 
             if (replyText.Contains("yardim"))
             {
-                await turnContext.SendActivityAsync(MessageFactory.Text("ASM-434 numarali Jira maddesini senin için olusturdum. Bu numaradan takip edebilirsin. - PX Depo IKEA Müsterisi için 123456789 numarali siparisden İrsaliye alinamiyor. Acil yardiminiz Bekleniyor - DESTEK BİRİMİ"), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Text("ASM-434 numarali Jira maddesini senin için olusturdum. Bu numaradan takip edebilirsin. - " + platform + " Depo " + account + " Müsterisi için " + ordernumber + " numarali siparisde bir sorun ile karsilastim. Acil yardiminiz Bekleniyor - '" + replyText + "' - DESTEK BİRİMİNE ILETILMISTIR EN KISA SUREDE SIZE DONUS SAGLANACAKTIR"), cancellationToken);
                 return;
             }
 
@@ -89,6 +106,17 @@ namespace Sorbi.Bots
             reply.SuggestedActions = new SuggestedActions()
             {
                 Actions = CardActionManager.GetAccountsc()
+            };
+            await turnContext.SendActivityAsync(reply, cancellationToken);
+        }
+
+        private static async Task SendSuggestedActionsAccount2Async(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            var reply = MessageFactory.Text("Lütfen Müsteri seçiniz.");
+
+            reply.SuggestedActions = new SuggestedActions()
+            {
+                Actions = CardActionManager.GetAccountsc2()
             };
             await turnContext.SendActivityAsync(reply, cancellationToken);
         }
