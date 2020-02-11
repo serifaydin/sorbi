@@ -13,6 +13,7 @@ namespace Sorbi.Bots
         static string platform = "";
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
+
             var replyText = turnContext.Activity.Text;
 
             if (replyText.Contains("siparis"))
@@ -67,6 +68,12 @@ namespace Sorbi.Bots
                 return;
             }
 
+            if (replyText == "1")
+            {
+                await SendIntroCardAsync(turnContext, cancellationToken);
+                return;
+            }
+
             if (replyText.Contains("yardim"))
             {
                 await turnContext.SendActivityAsync(MessageFactory.Text("ASM-434 numarali Jira maddesini senin için olusturdum. Bu numaradan takip edebilirsin. - " + platform + " Depo " + account + " Müsterisi için " + ordernumber + " numarali siparisde bir sorun ile karsilastim. Acil yardiminiz Bekleniyor - '" + replyText + "' - DESTEK BİRİMİNE ILETILMISTIR EN KISA SUREDE SIZE DONUS SAGLANACAKTIR"), cancellationToken);
@@ -75,6 +82,23 @@ namespace Sorbi.Bots
 
             await turnContext.SendActivityAsync(MessageFactory.Text("Üzgünüm !! Seni anlayamadim :(, Lütfen daha fazla bilgi verebilirmisin."), cancellationToken);
         }
+
+        private static async Task SendIntroCardAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            var card = new HeroCard();
+            card.Title = "Merhaba ben sorbi";
+            card.Text = @"Seni anladım sanıyorum, Aşağıda senin gibi orta etiket alma sorunu çözümleri mevcut İnceleyebilirmisin ?";
+            card.Images = new List<CardImage>() { new CardImage("https://cdn.technologyadvice.com/wp-content/uploads/2018/02/friendly-chatbot-700x408.jpg") };
+            card.Buttons = new List<CardAction>()
+    {
+        new CardAction(ActionTypes.OpenUrl, "Kargo Atama Sorunu", null, "Kargo Atama Sorunu", "Kargo Atama Sorunu", "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"),
+        new CardAction(ActionTypes.OpenUrl, "Adres Sorunu", null, "Adres Sorunu", "Adres Sorunu", "https://stackoverflow.com/questions/tagged/botframework"),
+        new CardAction(ActionTypes.OpenUrl, "Paketleme sorunu", null, "Paketleme sorunu", "Paketleme sorunu", "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"),
+    };
+            var response = MessageFactory.Attachment(card.ToAttachment());
+            await turnContext.SendActivityAsync(response, cancellationToken);
+        }
+
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
