@@ -22,10 +22,10 @@ namespace Sorbi.Bots
                 return;
             }
 
-            if (replyText == "PM")
+            if (replyText == "PL")
             {
                 await SendSuggestedActionsAccountAsync(turnContext, cancellationToken);
-                platform = "PM";
+                platform = "PL";
                 return;
             }
             if (replyText == "PX")
