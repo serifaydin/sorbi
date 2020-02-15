@@ -117,7 +117,7 @@ namespace Sorbi.Bots
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            string text = "Senin sorunlarına cevam bulmak için buradayın. İstersen sorunu sorarak başlayabilirsin.";
+            string text = "Senin sorunlarına cevap bulmak için buradayım. İstersen sorunu sorarak başlayabiliriz.";
             await HelloSendIntroCardAsync(turnContext, cancellationToken, text);
         }
 
